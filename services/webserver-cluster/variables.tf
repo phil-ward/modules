@@ -35,7 +35,7 @@ variable "max_size" {
 
 variable "enable_autoscaling" {
   description = "If set to true, enable autoscaling"
-  type = bool
+  type        = bool
 }
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
@@ -50,8 +50,8 @@ variable "server_port" {
 
 variable "custom_tags" {
   description = "Custom tags to be set on the instances in the ASG"
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
 }
 
 variable "ami" {

@@ -16,8 +16,8 @@ resource "aws_launch_configuration" "example" {
 
   user_data = templatefile("${path.module}/user-data.sh", {
     server_port = var.server_port
-    db_address  = data.terraform_remote_state.db.outputs.address
-    db_port     = data.terraform_remote_state.db.outputs.port
+    db_address  = data.terraform_remote_state.db.outputs.primary_address
+    db_port     = data.terraform_remote_state.db.outputs.primary_port
     server_text = var.server_text
   })
 
@@ -54,8 +54,8 @@ resource "aws_autoscaling_group" "example" {
   dynamic "tag" {
     for_each = var.custom_tags
     content {
-      key = tag.key
-      value = tag.value
+      key                 = tag.key
+      value               = tag.value
       propagate_at_launch = true
     }
   }
@@ -85,9 +85,9 @@ resource "aws_lb" "example" {
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
 
-  port              = local.http_port
+  port = local.http_port
 
-  protocol          = "HTTP"
+  protocol = "HTTP"
 
   # By default, return a simple 404 page
   default_action {

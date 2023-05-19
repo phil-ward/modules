@@ -1,16 +1,16 @@
 variable "name" {
   description = "The name to use for the EKS cluster"
-  type = string
+  type        = string
 }
 
 variable "min_size" {
   description = "Minimum number of nodes to have in the EKS cluster"
-  type = number
+  type        = number
 }
 
 variable "max_size" {
   description = "Maximum number of nodes to have in the EKS cluster"
-  type = number
+  type        = number
 }
 
 variable "desired_size" {
@@ -19,5 +19,5 @@ variable "desired_size" {
 
 variable "instance_types" {
   description = "The types of EC2 instances to run in the node group"
-  type = list(string)
+  type        = list(string)
 }

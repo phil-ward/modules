@@ -1,14 +1,14 @@
 resource "aws_iam_role" "cluster" {
-  name = "${var.name}-cluster-role"
+  name               = "${var.name}-cluster-role"
   assume_role_policy = data.aws_iam_policy_document.cluster_assume_role.json
 }
 
 data "aws_iam_policy_document" "cluster_assume_role" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["eks.amazonaws.com"]
     }
   }
@@ -33,7 +33,7 @@ data "aws_subnets" "default" {
 resource "aws_eks_cluster" "cluster" {
   name     = var.name
   role_arn = aws_iam_role.cluster.arn
-  version = "1.22"
+  version  = "1.22"
 
   vpc_config {
     subnet_ids = data.aws_subnets.default.ids
@@ -45,16 +45,16 @@ resource "aws_eks_cluster" "cluster" {
 }
 
 resource "aws_iam_role" "node_group" {
-  name = "${var.name}-node-group"
+  name               = "${var.name}-node-group"
   assume_role_policy = data.aws_iam_policy_document.node_assume_role.json
 }
 
 data "aws_iam_policy_document" "node_assume_role" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
     }
   }
@@ -76,11 +76,11 @@ resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
 }
 
 resource "aws_eks_node_group" "nodes" {
-  cluster_name  = aws_eks_cluster.cluster.name
+  cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = var.name
-  node_role_arn = aws_iam_role.node_group.arn
-  subnet_ids = data.aws_subnets.default.ids
-  instance_types = var.instance_types
+  node_role_arn   = aws_iam_role.node_group.arn
+  subnet_ids      = data.aws_subnets.default.ids
+  instance_types  = var.instance_types
 
   scaling_config {
     desired_size = var.desired_size

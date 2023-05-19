@@ -59,9 +59,9 @@ resource "kubernetes_service" "app" {
   spec {
     type = "LoadBalancer"
     port {
-      port = 80
+      port        = 80
       target_port = var.container_port
-      protocol = "TCP"
+      protocol    = "TCP"
     }
     selector = local.pod_labels
   }
